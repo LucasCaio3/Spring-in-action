@@ -53,7 +53,7 @@
 			<br />
 			<button>Submit Your Taco</button>
 		</div>
-		<span class="validationError" style="color:red" th:if="${#fields.hasErrors('ingredients')}" th:errors="*{ingredients}">You must choose at least 1 ingredient</span>
+		<span class="validationError" style="color:red" th:if="${#fields.hasErrors('ingredients')}" th:errors="*{ingredients}"></span>
 		<span class="validationError" style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
 	</form>
 </body>
