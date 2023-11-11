@@ -17,6 +17,7 @@ import com.lucas.tacos.Ingredient;
 import com.lucas.tacos.Taco;
 import com.lucas.tacos.TacoOrder;
 import com.lucas.tacos.data.IngredientRepository;
+import com.lucas.tacos.data.TacoRepository;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -32,8 +33,8 @@ public class DesignTacoController {
 	@Autowired
 	private final IngredientRepository ingredientRepo;
 	
-	
-	
+	private final TacoRepository tacoRepository;
+
 	@ModelAttribute
 	public void addIngredientsToModel(Model model) {
 		List<Ingredient> ingredients = (List<Ingredient>) ingredientRepo.findAll();
@@ -57,7 +58,7 @@ public class DesignTacoController {
 	public String showDesignForm() {
 		return "design";
 	}
-
+	
 	private Iterable<Ingredient> filterByType(List<Ingredient> ingredients, Ingredient.Type type) {
 		return ingredients.stream().filter(x -> x.getType().equals(type)).collect(Collectors.toList());
 	}
@@ -68,6 +69,7 @@ public class DesignTacoController {
 			log.info(errors.toString());
 			return "design";
 		}
+		tacoRepository.save(taco);
 		tacoOrder.addTaco(taco);
 		log.info("Processing taco: {}", taco);
 		return "redirect:/orders/current";
