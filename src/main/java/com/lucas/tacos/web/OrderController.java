@@ -1,7 +1,11 @@
 package com.lucas.tacos.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
@@ -15,6 +19,7 @@ import com.lucas.tacos.TacoOrder;
 import com.lucas.tacos.User;
 import com.lucas.tacos.data.OrderRepository;
 
+import org.springframework.ui.Model;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,9 +27,16 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/orders")
 @SessionAttributes("tacoOrder")
+@ConfigurationProperties(prefix = "taco.orders")
 public class OrderController {
 	@Autowired
 	OrderRepository orderRepository;
+
+	private int pageSize = 20;
+
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
 
 	@GetMapping("/current")
 	public String orderForm() {
@@ -36,12 +48,18 @@ public class OrderController {
 		if (errors.hasErrors()) {
 			return "orderForm";
 		}
-		Authentication authentication =
-				SecurityContextHolder.getContext().getAuthentication();
-		order.setUser((User)authentication.getPrincipal());
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		order.setUser((User) authentication.getPrincipal());
 		orderRepository.save(order);
 		log.info("Order submitted: {}", order);
 		sessionStatus.setComplete();
 		return "redirect:/home";
+	}
+
+	@GetMapping("/list")
+	public String ordersForUser(@AuthenticationPrincipal User user, Model model) {
+		Pageable pageable = PageRequest.of(0, pageSize);
+		model.addAttribute("orders", orderRepository.findByUserOrderByPlacedAtDesc(user, pageable));
+		return "orderList";
 	}
 }

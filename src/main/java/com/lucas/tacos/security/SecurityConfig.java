@@ -44,7 +44,7 @@ public class SecurityConfig {
 		http.authorizeHttpRequests((authorize) -> {
 			try {
 				authorize.requestMatchers(mvc.pattern("/design")).hasRole("USER")
-						.requestMatchers(mvc.pattern("/orders")).hasRole("USER")
+						.requestMatchers(mvc.pattern("/orders/**")).hasRole("USER")
 						.requestMatchers(mvc.pattern("/h2-console/**")).permitAll()
 						.anyRequest().permitAll()
 						.and().headers().frameOptions().sameOrigin()
