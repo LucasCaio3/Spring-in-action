@@ -18,7 +18,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import com.lucas.tacos.TacoOrder;
 import com.lucas.tacos.User;
 import com.lucas.tacos.config.OrderProps;
-import com.lucas.tacos.data.OrderRepository;
+import com.lucas.tacos.data.TacoOrderRepository;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -30,11 +30,11 @@ import lombok.extern.slf4j.Slf4j;
 @ConfigurationProperties(prefix = "taco.orders")
 public class OrderController {
 	
-	OrderRepository orderRepository;
+	TacoOrderRepository orderRepository;
 
 	private OrderProps props;
 	
-	public OrderController(OrderRepository orderRepository,
+	public OrderController(TacoOrderRepository orderRepository,
 	OrderProps props) {
 	this.orderRepository = orderRepository;
 	this.props = props;
