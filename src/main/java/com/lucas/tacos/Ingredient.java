@@ -19,7 +19,7 @@ public class Ingredient {
 	private final String name;
 	@Enumerated(EnumType.STRING)
 	private final Type type;
-
+	
 	public enum Type {
 		WRAP, PROTEIN, VEGGIES, CHEESE, SAUCE
 	}

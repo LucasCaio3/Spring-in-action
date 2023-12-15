@@ -5,6 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 
 import com.lucas.tacos.Ingredient.Type;
 import com.lucas.tacos.data.IngredientRepository;
@@ -32,5 +33,10 @@ public class TacoCloudApplication {
 			repo.save(new Ingredient("SLSA", "Salsa", Type.SAUCE));
 			repo.save(new Ingredient("SRCR", "Sour Cream", Type.SAUCE));
 		};
+	}
+
+	@Bean
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
 	}
 }

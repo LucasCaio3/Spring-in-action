@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Taco Order for User</title>
+	<link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+
+<body>
+	<h2>Taco Orders</h2>
+
+	<table>
+		<thead>
+			<tr>
+				<th>Order ID</th>
+				<th>PlacedAt</th>
+				<!-- Add other columns as needed -->
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="tacoOrder : ${orders}">
+				<td th:text="${tacoOrder.id}"></td>
+				<td th:text="${tacoOrder.placedAt}"></td>
+				<!-- Add other columns as needed -->
+			</tr>
+		</tbody>
+	</table>
+</body>
+
+</html>
